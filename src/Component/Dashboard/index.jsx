@@ -101,13 +101,22 @@ export default function Dashboard() {
 
 
   const handleImage = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onloadend = () =>
-      setForm({ ...form, image: reader.result });
-    reader.readAsDataURL(file);
-  };
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const allowedTypes = ["image/jpeg", "image/png"];
+        if (!allowedTypes.includes(file.type)) {
+            alert("Only JPG and PNG image formats are allowed");
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            setForm({ ...form, image: reader.result });
+        };
+        reader.readAsDataURL(file);
+        };
+
 
 
 
@@ -322,7 +331,7 @@ export default function Dashboard() {
                 {isEditing ? "Edit" : "Add"} Employee
             </h2>
 
-            {/* Full Name */}
+         
             <input
                 className="border p-2 w-full mb-2"
                 placeholder="Full Name"
@@ -332,7 +341,7 @@ export default function Dashboard() {
                 }
             />
 
-            {/* Gender */}
+        
             <select
                 className="border p-2 w-full mb-2"
                 value={form.gender}
@@ -346,7 +355,7 @@ export default function Dashboard() {
                 ))}
             </select>
 
-            {/* DOB */}
+            
             <input
                 type="date"
                 className="border p-2 w-full mb-2"
@@ -356,7 +365,7 @@ export default function Dashboard() {
                 }
             />
 
-            {/* State */}
+            
             <select
                 className="border p-2 w-full mb-2"
                 value={form.state}
@@ -370,7 +379,7 @@ export default function Dashboard() {
                 ))}
             </select>
 
-            {/* STATUS TOGGLE */}
+           
             <div className="flex items-center justify-between mb-3">
                 <span className="font-medium">Status</span>
 
@@ -386,8 +395,11 @@ export default function Dashboard() {
                 </span>
             </div>
 
-            {/* Image */}
-            <input type="file" onChange={handleImage} />
+
+            <input type="file" 
+            accept=".jpg,.jpeg,.png"
+            onChange={handleImage} 
+            />
             {form.image && (
                 <img
                 src={form.image}
